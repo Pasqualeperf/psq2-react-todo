@@ -49,6 +49,14 @@ function App() {
     setTodos(complete);
   }
 
+  const clearCompleted = () => {
+    const clear = todos.filter(todo => {
+      return todo.isComplete !== true;
+    })
+
+    setTodos(clear);
+  }
+
   return (
     <div className="todo-app-container">
       <div className="todo-app">
@@ -112,7 +120,7 @@ function App() {
             <button className="button filter-button">Completed</button>
           </div>
           <div>
-            <button className="button">Clear completed</button>
+            <button className="button" onClick={clearCompleted}>Clear completed</button>
           </div>
         </div>
       </div>
