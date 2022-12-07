@@ -7,6 +7,7 @@ function App() {
   const [todos, setTodos] = useState([]);
   const [input, setInput] = useState("");
   const [idTodo, setIdTodo] = useState(1);
+  const [filter, setFilter] = useState("all");
 
   const changeInput = (event) => {
     setInput(event.target.value);
@@ -57,6 +58,19 @@ function App() {
     setTodos(clear);
   }
 
+  const todosFiltered = (filter) => {
+    if(filter === "all") {
+      return todos;
+    }
+    if(filter === "active"){
+      return todos.filter(todo => !todo.isComplete);
+    }
+
+    if(filter === "completed"){
+      return todos.filter(todo => todo.isComplete);
+    }
+  }
+
   return (
     <div className="todo-app-container">
       <div className="todo-app">
@@ -73,7 +87,7 @@ function App() {
 
         <ul className="todo-list">
           {
-            todos.map(todo => (
+            todosFiltered(filter).map(todo => (
               <li key={todo.id} className="todo-item-container">
                 <div className="todo-item">
                   <input type="checkbox" checked={todo.isComplete ? true : false} onChange={() => {toggleComplete(todo.id)}} />
@@ -113,11 +127,15 @@ function App() {
 
         <div className="other-buttons-container">
           <div>
-            <button className="button filter-button filter-button-active">
+            <button className={`button filter-button ${filter === "all" ? 'filter-button-active' : ''}`} onClick={()=>{setFilter("all")}}>
               All
             </button>
-            <button className="button filter-button">Active</button>
-            <button className="button filter-button">Completed</button>
+            <button className={`button filter-button ${filter === "active" ? 'filter-button-active' : ''}`} onClick={()=>{setFilter("active")}}>
+              Active
+            </button>
+            <button className={`button filter-button ${filter === "completed" ? 'filter-button-active' : ''}`} onClick={()=>{setFilter("completed")}}>
+              Completed
+            </button>
           </div>
           <div>
             <button className="button" onClick={clearCompleted}>Clear completed</button>
