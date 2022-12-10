@@ -1,6 +1,10 @@
 import { useState } from 'react';
 import '../reset.css';
 import '../App.css';
+import TodoForm from './TodoForm';
+import TodoList from './TodoList';
+import CheckAll from './CheckAll';
+import MoreFeatures from './MoreFeatures';
 
 function App() {
 
@@ -75,72 +79,10 @@ function App() {
     <div className="todo-app-container">
       <div className="todo-app">
         <h2>Todo App</h2>
-        <form action="#" onSubmit={newTodo}>
-          <input
-            type="text"
-            className="todo-input"
-            placeholder="What do you need to do?"
-            value={input}
-            onChange={changeInput}
-          />
-        </form>
-
-        <ul className="todo-list">
-          {
-            todosFiltered(filter).map(todo => (
-              <li key={todo.id} className="todo-item-container">
-                <div className="todo-item">
-                  <input type="checkbox" checked={todo.isComplete ? true : false} onChange={() => {toggleComplete(todo.id)}} />
-                  <span className={`todo-item-label ${todo.isComplete ? "line-through" : ""}`}>{todo.title}</span>
-                  {/* <input type="text" className="todo-item-input" value="Finish React Series" /> */}
-                </div>
-                <button className="x-button" onClick={()=> {deleteTodo(todo.id)}}>
-                  <svg
-                    className="x-button-icon"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                  </svg>
-                </button>
-              </li>
-            ))
-          }
-        </ul>
-        <div className="check-all-container">
-          <div>
-            <div className="button" onClick={completeAll}>Check All</div>
-          </div>
-          {
-            todos.length > 0 ? (
-              <span>{todos.length} items remaining</span>
-            ) : ""
-          }
-          
-        </div>
-
-        <div className="other-buttons-container">
-          <div>
-            <button className={`button filter-button ${filter === "all" ? 'filter-button-active' : ''}`} onClick={()=>{setFilter("all")}}>
-              All
-            </button>
-            <button className={`button filter-button ${filter === "active" ? 'filter-button-active' : ''}`} onClick={()=>{setFilter("active")}}>
-              Active
-            </button>
-            <button className={`button filter-button ${filter === "completed" ? 'filter-button-active' : ''}`} onClick={()=>{setFilter("completed")}}>
-              Completed
-            </button>
-          </div>
-          <div>
-            <button className="button" onClick={clearCompleted}>Clear completed</button>
-          </div>
-        </div>
+        <TodoForm newTodo={newTodo} input={input} changeInput={changeInput} />
+        <TodoList todosFiltered={todosFiltered} filter={filter} toggleComplete={toggleComplete} deleteTodo={deleteTodo} />
+        <CheckAll completeAll={completeAll} todos={todos} />
+        <MoreFeatures filter={filter} setFilter={setFilter} clearCompleted={clearCompleted} />
       </div>
     </div>
   );
